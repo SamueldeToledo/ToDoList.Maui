@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ToDoList.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Local="clr-namespace:ToDoList">
+    <ScrollView>
+        <VerticalStackLayout MaximumWidthRequest="500" Spacing="20">
+            <VerticalStackLayout>
+                <Label
+                    x:Name="LblTitle"
+                    Margin="0,25"
+                    HorizontalOptions="Center"
+                    TextType="Html" />
+                <VerticalStackLayout x:Name="CardsLayout" Spacing="10" />
+                <Button
+                    x:Name="BtnCreateList"
+                    Margin="0,60"
+                    BackgroundColor="Black"
+                    Clicked="BtnCreateList_Clicked"
+                    CornerRadius="28"
+                    FontSize="20"
+                    HeightRequest="56"
+                    HorizontalOptions="End"
+                    Text="+"
+                    TextColor="White"
+                    WidthRequest="56" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

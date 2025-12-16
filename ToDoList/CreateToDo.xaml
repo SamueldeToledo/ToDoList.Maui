@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ToDoList.CreateToDo"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <Grid
+        ColumnDefinitions="Auto,*"
+        MinimumHeightRequest="100"
+        MinimumWidthRequest="500"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="20">
+        <Label
+            x:Name="lblTitle"
+            Text="Title: "
+            TextType="Html" />
+        <Entry x:Name="EtTitle" Grid.Column="1" />
+
+        <Label
+            x:Name="lblDescription"
+            Grid.Row="1"
+            Text="Description: "
+            TextType="Html" />
+        <Entry
+            x:Name="EtDescription"
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalOptions="Center" />
+
+        <HorizontalStackLayout
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalOptions="End"
+            Spacing="35">
+            <Button
+                x:Name="BtnClose"
+                Background="Black"
+                Clicked="Close_Clicked"
+                HorizontalOptions="End"
+                Text="Close" />
+            <Button
+                x:Name="BtnCreate"
+                Background="Black"
+                Clicked="Create_Clicked"
+                HorizontalOptions="End"
+                Text="Create" />
+        </HorizontalStackLayout>
+
+    </Grid>
+</toolkit:Popup>
