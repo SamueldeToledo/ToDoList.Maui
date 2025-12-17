@@ -30,12 +30,16 @@ public partial class MainPage : ContentPage
         var popup = new CreateToDo();
 
         var result = await this.ShowPopupAsync(popup);
+
+       GenerateCards();
     }
 
     private async void GenerateCards()
     {
         string cacheDir = FileSystem.Current.CacheDirectory;
         var Files = Directory.GetFiles(cacheDir);
+        CardsLayout.Clear();
+
         if (Files.Count() > 0)
         {
             foreach (var item in Files)
@@ -50,6 +54,12 @@ public partial class MainPage : ContentPage
                 CardsLayout.Add(card.BFiles);
             }
 
+            LblNoItems.IsVisible = false;
+        }
+        else
+        {
+            LblNoItems.Text = "<strong>No Content!</strong>";
+            LblNoItems.IsVisible = true;
         }
     }
 }

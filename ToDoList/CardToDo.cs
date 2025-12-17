@@ -12,6 +12,7 @@ namespace ToDoList
     {
         public Border BFiles { get; private set; }
         public Label LblTitleBorder { get; private set; }
+        public Button BtnDelete { get; private set; }
         public Label LblDescription { get; private set; }
         public Label LblDone { get; private set; }
         public CheckBox CbCheckBox { get; private set; }
@@ -38,19 +39,18 @@ namespace ToDoList
 
             var grid = new Grid
             {
-                Margin = new Thickness(10),
-                RowSpacing = 10,
-                RowDefinitions =
-            {
-                new RowDefinition { Height = GridLength.Auto },
-                new RowDefinition { Height = GridLength.Auto },
-                new RowDefinition { Height = GridLength.Auto }
-            },
-                ColumnDefinitions =
-            {
-                new ColumnDefinition { Width = GridLength.Star },
-                new ColumnDefinition { Width = GridLength.Auto }
-            }
+                   Margin = new Thickness(10),
+                   RowSpacing = 10,
+                   RowDefinitions = {
+                                        new RowDefinition { Height = GridLength.Auto },
+                                        new RowDefinition { Height = GridLength.Auto },
+                                        new RowDefinition { Height = GridLength.Auto }
+                                    },
+                   ColumnDefinitions ={
+                                          new ColumnDefinition { Width = GridLength.Star },
+                                          new ColumnDefinition { Width = GridLength.Auto },
+                                          new ColumnDefinition { Width = GridLength.Star }
+                                      }
             };
 
             LblTitleBorder = new Label
@@ -68,6 +68,15 @@ namespace ToDoList
                 TextType = TextType.Html
             };
 
+            BtnDelete = new Button
+            {
+              Text = "Delete",
+              BackgroundColor = Colors.Black,
+              HorizontalOptions = LayoutOptions.End,
+              FontSize = 15,
+                
+            };
+
             CbCheckBox = new CheckBox
             {
                 HorizontalOptions = LayoutOptions.Start,
@@ -76,15 +85,20 @@ namespace ToDoList
 
             };
             CbCheckBox.CheckedChanged += CbCheckBox_CheckedChanged;
-
+            BtnDelete.Clicked += BtnDelete_Clicked;
             grid.Add(LblTitleBorder);
             grid.Add(LblDescription, 0, 1);
             grid.Add(LblDone, 0, 2);
+            grid.Add(BtnDelete, 2, 2);
             grid.Add(CbCheckBox, 1, 2);
 
             BFiles.Content = grid;
         }
 
+        private void BtnDelete_Clicked(object sender, EventArgs e)
+        {
+            RemoveFile();
+        }
         private void CbCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (e.Value)
@@ -105,6 +119,13 @@ namespace ToDoList
             Json.Completed = value;
             var result = JsonSerializer.Serialize(Json);
             File.WriteAllText(path, result);
+        }
+
+        private void RemoveFile()
+        {
+            string path = $"{FileSystem.Current.CacheDirectory}\\{LblTitleBorder.Text.Replace("<strong>Title:</strong> ", "")}.Json";
+            File.Delete(path);
+            BFiles.IsVisible = false;
         }
     }
 }

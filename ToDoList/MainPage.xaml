@@ -10,9 +10,18 @@
                 <Label
                     x:Name="LblTitle"
                     Margin="0,25"
+                    FontSize="20"
                     HorizontalOptions="Center"
                     TextType="Html" />
                 <VerticalStackLayout x:Name="CardsLayout" Spacing="10" />
+                <Label
+                    x:Name="LblNoItems"
+                    Margin="0,100"
+                    CharacterSpacing="5"
+                    FontSize="40"
+                    HorizontalOptions="Center"
+                    IsVisible="False"
+                    TextType="Html" />
                 <Button
                     x:Name="BtnCreateList"
                     Margin="0,60"
