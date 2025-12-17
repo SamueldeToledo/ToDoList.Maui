@@ -10,6 +10,7 @@ namespace ToDoList
 {
     public class CardTodo
     {
+        public event Action TodoDeleted;
         public Border BFiles { get; private set; }
         public Label LblTitleBorder { get; private set; }
         public Button BtnDelete { get; private set; }
@@ -125,7 +126,7 @@ namespace ToDoList
         {
             string path = $"{FileSystem.Current.CacheDirectory}\\{LblTitleBorder.Text.Replace("<strong>Title:</strong> ", "")}.Json";
             File.Delete(path);
-            BFiles.IsVisible = false;
+            TodoDeleted?.Invoke();
         }
     }
 }

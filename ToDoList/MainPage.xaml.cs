@@ -7,7 +7,8 @@ namespace ToDoList;
 public partial class MainPage : ContentPage
 {
 
-    public List<CardTodo> Cards { get; set; }
+    public List<CardTodo> Cards { get; set; } = new List<CardTodo>();
+    
     public MainPage()
 	{
 		InitializeComponent();
@@ -15,8 +16,7 @@ public partial class MainPage : ContentPage
         GenerateCards();
     }
 
-
-	private void SetBold(Label label, string Bold, string text)
+    private void SetBold(Label label, string Bold, string text)
 	{
 		label.Text = $"<strong>{Bold}:</strong> {text}";
     }
@@ -34,6 +34,11 @@ public partial class MainPage : ContentPage
        GenerateCards();
     }
 
+    private async void OnTodoDeleted()
+    {
+        GenerateCards();
+        await DisplayAlert("Deleted", "Your file has been deleted!", "Ok");
+    }
     private async void GenerateCards()
     {
         string cacheDir = FileSystem.Current.CacheDirectory;
@@ -51,10 +56,15 @@ public partial class MainPage : ContentPage
                 SetBold(card.LblDescription, "Description", obj.Description);
                 SetBold(card.LblDone, "Done", "");
                 card.CbCheckBox.IsChecked = obj.Completed;
+                Cards.Add(card);
+                Cards.LastOrDefault()!.TodoDeleted += OnTodoDeleted;
                 CardsLayout.Add(card.BFiles);
+
+
             }
 
             LblNoItems.IsVisible = false;
+
         }
         else
         {
