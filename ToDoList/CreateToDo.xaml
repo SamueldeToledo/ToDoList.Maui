@@ -15,17 +15,23 @@
             x:Name="lblTitle"
             Text="Title: "
             TextType="Html" />
-        <Entry x:Name="EtTitle" Grid.Column="1" />
+        <Editor
+            x:Name="EtTitle"
+            Grid.Column="1"
+            AutoSize="TextChanges" />
 
         <Label
             x:Name="lblDescription"
             Grid.Row="1"
+            MaximumHeightRequest="300"
+            MaximumWidthRequest="500"
             Text="Description: "
             TextType="Html" />
-        <Entry
+        <Editor
             x:Name="EtDescription"
             Grid.Row="1"
             Grid.Column="1"
+            AutoSize="TextChanges"
             VerticalOptions="Center" />
 
         <HorizontalStackLayout

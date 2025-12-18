@@ -39,6 +39,11 @@ public partial class MainPage : ContentPage
         GenerateCards();
         await DisplayAlert("Deleted", "Your file has been deleted!", "Ok");
     }
+
+    private async void OnTodoUpdated()
+    {
+        GenerateCards();
+    }
     private async void GenerateCards()
     {
         string cacheDir = FileSystem.Current.CacheDirectory;
@@ -58,6 +63,7 @@ public partial class MainPage : ContentPage
                 card.CbCheckBox.IsChecked = obj.Completed;
                 Cards.Add(card);
                 Cards.LastOrDefault()!.TodoDeleted += OnTodoDeleted;
+                Cards.LastOrDefault()!.TodoUpdated += OnTodoUpdated;
                 CardsLayout.Add(card.BFiles);
 
 

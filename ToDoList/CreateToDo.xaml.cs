@@ -5,13 +5,24 @@ namespace ToDoList;
 
 public partial class CreateToDo : Popup
 {
-	public CreateToDo()
+    public string OldTitle { get; set; }
+    public CreateToDo()
 	{
 		InitializeComponent();
         SetBold(lblTitle, "Title","");
         SetBold(lblDescription, "Description","");
 	}
+    public CreateToDo(string Title, string Description)
+    {
+        InitializeComponent();
+        SetBold(lblTitle, "Title", "");
+        SetBold(lblDescription, "Description", "");
 
+        OldTitle = Title;
+        EtTitle.Text = Title;
+        EtDescription.Text = Description;
+        BtnCreate.Text = "Update";
+    }
 
     private void SetBold(Label label, string Bold, string text)
     {
@@ -34,8 +45,11 @@ public partial class CreateToDo : Popup
         string path = $"{CachePath}\\{EtTitle.Text}.Json";
         var obj = new TodoObject() { Title = EtTitle.Text, Description = EtDescription.Text, Completed = false };
         var Json = JsonSerializer.Serialize(obj);
+
+        if (OldTitle != EtTitle.Text)
+            File.Delete($"{CachePath}\\{OldTitle}.Json");
+
         File.WriteAllText(path, Json);
-        Application.Current.MainPage.DisplayAlert("Created!" , "Your To Do File has been saved", "Ok");
         await this.CloseAsync();
     }
 }
