@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using System.Text.Json;
+using ToDoList.ViewModel;
 
 namespace ToDoList;
 
@@ -11,17 +12,26 @@ public partial class CreateToDo : Popup
 		InitializeComponent();
         SetBold(lblTitle, "Title","");
         SetBold(lblDescription, "Description","");
-	}
+
+        if (Vm != null)
+            Vm.RequestClose += OnRequestClose;
+    }
+
+    private async void OnRequestClose()
+    {
+        await this.CloseAsync();
+    }
     public CreateToDo(string Title, string Description)
     {
         InitializeComponent();
         SetBold(lblTitle, "Title", "");
         SetBold(lblDescription, "Description", "");
 
-        OldTitle = Title;
-        EtTitle.Text = Title;
-        EtDescription.Text = Description;
         BtnCreate.Text = "Update";
+        var Vm =  new CreateToDoViewModel(Title, Description);
+        BindingContext = Vm;
+        if (Vm != null)
+            Vm.RequestClose += OnRequestClose;
     }
 
     private void SetBold(Label label, string Bold, string text)

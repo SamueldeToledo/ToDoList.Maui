@@ -68,7 +68,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="CreateToDo.xaml">
+	  <MauiXaml Update="View\CreateToDo.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MainPage.xaml">
