@@ -6,13 +6,25 @@ namespace ToDoList;
 
 public partial class CreateToDo : Popup
 {
-    public string OldTitle { get; set; }
     public CreateToDo()
-	{
-		InitializeComponent();
-        SetBold(lblTitle, "Title","");
-        SetBold(lblDescription, "Description","");
+    {
+        InitializeComponent();
+        SetBold(lblTitle, "Title", "");
+        SetBold(lblDescription, "Description", "");
 
+        if (Vm != null)
+            Vm.RequestClose += OnRequestClose;
+    }
+
+    public CreateToDo(string Title, string Description)
+    {
+        InitializeComponent();
+        SetBold(lblTitle, "Title", "");
+        SetBold(lblDescription, "Description", "");
+
+        BtnCreate.Text = "Update";
+        var Vm = new CreateToDoViewModel(Title, Description);
+        BindingContext = Vm;
         if (Vm != null)
             Vm.RequestClose += OnRequestClose;
     }
@@ -21,18 +33,7 @@ public partial class CreateToDo : Popup
     {
         await this.CloseAsync();
     }
-    public CreateToDo(string Title, string Description)
-    {
-        InitializeComponent();
-        SetBold(lblTitle, "Title", "");
-        SetBold(lblDescription, "Description", "");
 
-        BtnCreate.Text = "Update";
-        var Vm =  new CreateToDoViewModel(Title, Description);
-        BindingContext = Vm;
-        if (Vm != null)
-            Vm.RequestClose += OnRequestClose;
-    }
 
     private void SetBold(Label label, string Bold, string text)
     {
@@ -41,25 +42,6 @@ public partial class CreateToDo : Popup
 
     private async void Close_Clicked(object sender, EventArgs e)
     {
-        await this.CloseAsync();
-    }
-
-    private void Create_Clicked(object sender, EventArgs e)
-    {
-        string cacheDir = FileSystem.Current.CacheDirectory;
-        GenerateTodoFile(cacheDir);
-    }
-
-    async void GenerateTodoFile(string CachePath)
-    {
-        string path = $"{CachePath}\\{EtTitle.Text}.Json";
-        var obj = new TodoObject() { Title = EtTitle.Text, Description = EtDescription.Text, Completed = false };
-        var Json = JsonSerializer.Serialize(obj);
-
-        if (OldTitle != EtTitle.Text)
-            File.Delete($"{CachePath}\\{OldTitle}.Json");
-
-        File.WriteAllText(path, Json);
         await this.CloseAsync();
     }
 }
