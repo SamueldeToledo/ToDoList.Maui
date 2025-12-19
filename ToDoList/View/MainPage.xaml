@@ -3,7 +3,11 @@
     x:Class="ToDoList.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:Local="clr-namespace:ToDoList">
+    xmlns:Local="clr-namespace:ToDoList"
+    xmlns:vm="clr-namespace:ToDoList.ViewModel">
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel x:Name="Vm" />
+    </ContentPage.BindingContext>
     <ScrollView>
         <VerticalStackLayout MaximumWidthRequest="500" Spacing="20">
             <VerticalStackLayout>
@@ -13,7 +17,13 @@
                     FontSize="20"
                     HorizontalOptions="Center"
                     TextType="Html" />
-                <VerticalStackLayout x:Name="CardsLayout" Spacing="10" />
+                <CollectionView ItemsSource="{Binding Cards}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView Content="{Binding .}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <Label
                     x:Name="LblNoItems"
                     Margin="0,100"

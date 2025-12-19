@@ -52,7 +52,7 @@ namespace ToDoList.ViewModel
                 File.Delete($"{CachePath}\\{ToDo.OldTitle}.Json");
 
             File.WriteAllText(path, Json);
-            RequestClose.Invoke();
+            RequestClose?.Invoke();
         }
     }
 }
