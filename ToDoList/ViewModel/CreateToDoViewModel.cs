@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,36 +13,25 @@ using ToDoList.Model;
 
 namespace ToDoList.ViewModel
 {
-    public class CreateToDoViewModel : INotifyPropertyChanged
+    public partial class CreateToDoViewModel : ObservableObject
     {
         public event Action? RequestClose;
-        private CreateToDoModel _ToDo;
-        public CreateToDoModel ToDo {
-            get { return _ToDo; }
-            set { _ToDo = value; OnPropertyChanged(nameof(_ToDo)); }
-        }
-        public ICommand CreateFile { get; set; }
 
+        [ObservableProperty]
+        private CreateToDoModel toDo;
+        
         public CreateToDoViewModel()
         {
-            CreateFile = new Command(Create);
-            ToDo = new CreateToDoModel();
+            toDo = new CreateToDoModel();
         }
 
         public CreateToDoViewModel(string title, string description)
         {
-            CreateFile = new Command(Create);
-            ToDo = new CreateToDoModel() { Title = title, Description = description, OldTitle = title };
+            toDo = new CreateToDoModel() { Title = title, Description = description, OldTitle = title };
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
+        [RelayCommand]
         private async void Create()
         {
             string CachePath = FileSystem.Current.CacheDirectory;

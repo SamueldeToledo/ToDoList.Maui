@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,36 +8,17 @@ using System.Threading.Tasks;
 
 namespace ToDoList.Model
 {
-    public class CreateToDoModel : INotifyPropertyChanged
+    public partial class CreateToDoModel : ObservableObject
     {
+        [ObservableProperty]
 
-        private string? _Title;
-        public string? Title
-        {
-            get { return _Title; }
-            set { _Title = value; OnPropertyChanged(nameof(_Title)); }
-        }
+        private  string? title;
+        [ObservableProperty]
 
-        private string? _OldTitle;
-        public string? OldTitle
-        {
-            get { return _OldTitle ; }
-            set { _OldTitle = value; OnPropertyChanged(nameof(_OldTitle)); }
-        }
+        private string? oldTitle;
+        [ObservableProperty]
 
-        private string? _Description;
-        public string? Description
-        {
-            get { return _Description; }
-            set { _Description = value; OnPropertyChanged(nameof(_Description)); }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public void OnPropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+        private string? description;
+ 
     }
 }

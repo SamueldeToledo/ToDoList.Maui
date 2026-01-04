@@ -53,7 +53,7 @@
             <Button
                 x:Name="BtnCreate"
                 Background="Black"
-                Command="{Binding CreateFile}"
+                Command="{Binding CreateCommand}"
                 HorizontalOptions="End"
                 Text="Create" />
         </HorizontalStackLayout>

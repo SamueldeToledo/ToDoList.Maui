@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,46 +15,34 @@ using ToDoList.Model;
 
 namespace ToDoList.ViewModel
 {
-    public class MainPageViewModel : INotifyPropertyChanged 
+    public partial class MainPageViewModel : ObservableObject
     {
-        private CreateToDoModel _ToDo;
-        public CreateToDoModel ToDo { get { return _ToDo; } set { OnPropertyChanged(nameof(_ToDo)); } }
-        
-        public ObservableCollection<CardTodo> Cards { get; set; } = new ObservableCollection<CardTodo>();
-        public ICommand GenerateToDo { get; set; }
+        [ObservableProperty]
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private CreateToDoModel toDo;
+        [ObservableProperty]
+        private ObservableCollection<CardTodo> cards = new ObservableCollection<CardTodo>();
 
         public MainPageViewModel()
         {
-            ToDo =  new CreateToDoModel();
-            GenerateToDo = new Command(OpenGeneratePopUp);
+            toDo = new CreateToDoModel();
             GenerateCards();
         }
-
-        private async void OpenGeneratePopUp()
-        {
-            var popup = new CreateToDo();
-
-            var result = await new Page().ShowPopupAsync(popup);
-        }
-        public void OnPropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+  
 
         private void SetBold(Label label, string Bold, string text)
         {
             label.Text = $"<strong>{Bold}:</strong> {text}";
         }
-        private async void OnTodoDeleted()
+
+        [RelayCommand]
+        private async void Deleted()
         {
             GenerateCards();
             await new Page().DisplayAlert("Deleted", "Your file has been deleted!", "Ok");
         }
 
-        private async void OnTodoUpdated()
+        private async void Updated()
         {
             GenerateCards();
         }
@@ -60,7 +50,7 @@ namespace ToDoList.ViewModel
         {
             string cacheDir = FileSystem.Current.CacheDirectory;
             var Files = Directory.GetFiles(cacheDir);
-            Cards.Clear();
+            cards.Clear();
 
             if (Files.Count() > 0)
                 foreach (var item in Files)
@@ -72,9 +62,9 @@ namespace ToDoList.ViewModel
                     SetBold(card.LblDescription, "Description", obj.Description);
                     SetBold(card.LblDone, "Done", "");
                     card.CbDone.IsChecked = obj.Completed;
-                    Cards.Add(card);
-                    Cards.LastOrDefault()!.TodoDeleted += OnTodoDeleted;
-                    Cards.LastOrDefault()!.TodoUpdated += OnTodoUpdated;
+                    cards.Add(card);
+                    cards.LastOrDefault()!.TodoDeleted += Updated;
+                    cards.LastOrDefault()!.TodoUpdated += Updated;
                 }
         }
     }
